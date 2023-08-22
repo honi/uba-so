@@ -6,17 +6,17 @@
 
 void bart() {
 	printf("Bart\n");
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 void lisa() {
 	printf("Lisa\n");
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 void maggie() {
 	printf("Maggie\n");
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 void homer() {
@@ -27,35 +27,35 @@ void homer() {
 
 	pid = fork();
 	if (pid < 0) {
-		exit(1);
+		exit(EXIT_FAILURE);
 	} else if (pid == 0) {
 		return bart();
 	} else {
 		waitpid(pid, &status, 0);
-		if (WEXITSTATUS(status) != 0) exit(1);
+		if (WEXITSTATUS(status) != 0) exit(EXIT_FAILURE);
 	}
 
 	pid = fork();
 	if (pid < 0) {
-		exit(1);
+		exit(EXIT_FAILURE);
 	} else if (pid == 0) {
 		return lisa();
 	} else {
 		waitpid(pid, &status, 0);
-		if (WEXITSTATUS(status) != 0) exit(1);
+		if (WEXITSTATUS(status) != 0) exit(EXIT_FAILURE);
 	}
 
 	pid = fork();
 	if (pid < 0) {
-		exit(1);
+		exit(EXIT_FAILURE);
 	} else if (pid == 0) {
 		return maggie();
 	} else {
 		waitpid(pid, &status, 0);
-		if (WEXITSTATUS(status) != 0) exit(1);
+		if (WEXITSTATUS(status) != 0) exit(EXIT_FAILURE);
 	}
 
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 void abraham() {
@@ -63,14 +63,14 @@ void abraham() {
 
 	pid_t pid = fork();
 	if (pid < 0) {
-		exit(1);
+		exit(EXIT_FAILURE);
 	} else if (pid == 0) {
 		return homer();
 	} else {
 		int status;
 		waitpid(pid, &status, 0);
-		if (WEXITSTATUS(status) != 0) exit(1);
-		exit(0);
+		if (WEXITSTATUS(status) != 0) exit(EXIT_FAILURE);
+		exit(EXIT_SUCCESS);
 	}
 }
 
