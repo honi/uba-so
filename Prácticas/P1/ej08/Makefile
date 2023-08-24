@@ -1,6 +1,6 @@
-bin/main: main.c
+bin/main: src/main.c
 	@mkdir -p bin
-	gcc main.c -o bin/main
+	gcc $< -o $@
 
 clean:
 	rm -rf bin
