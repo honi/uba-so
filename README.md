@@ -16,9 +16,10 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
     - [Ejercicio 2](prácticas/p1/ej02.md)
     - [Ejercicio 5](prácticas/p1/ej05)
     - [Ejercicio 8](prácticas/p1/ej08)
-    - [Ejercicio 10](prácticas/p1/ej10.md)
+    - [Ejercicio 9](prácticas/p1/ej09.md)
     - [Ejercicio 11](prácticas/p1/ej11.md)
     - [Ejercicio 12](prácticas/p1/ej12.md)
+    - [Ejercicio 13](prácticas/p1/ej13.md)
 
 - Ejercicios del libro de Silberschatz: Operating System Concepts
 
