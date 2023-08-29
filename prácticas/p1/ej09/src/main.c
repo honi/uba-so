@@ -10,7 +10,7 @@ pid_t pong_pid;
 int count = 0;
 
 void ping() {
-    // Every 3rd ping...
+    // Cada 3 ping pongs...
     if (count++ % 3 == 0 && count != 1) {
         char answer = 0;
         do {
@@ -40,6 +40,11 @@ int main(int argc, char const *argv[]){
     if (pong_pid < 0) exit(EXIT_FAILURE);
 
     if (pong_pid > 0) {
+        // Sincronización cabeza...
+        // Necesitamos esperar que el proceso pong registre su handler para SIGUSR1
+        // antes de mandar la señal desde ping.
+        sleep(0.5);
+
         signal(SIGUSR1, ping);
         ping();
     } else {
