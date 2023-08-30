@@ -25,8 +25,6 @@ void worker(int id, int pipe_fd[2][2]) {
     }
 
     write(pipe_fd[CHILD_TO_PARENT][WRITE], &result, sizeof(result));
-    close(pipe_fd[CHILD_TO_PARENT][WRITE]);
-
     exit(EXIT_SUCCESS);
 }
 
