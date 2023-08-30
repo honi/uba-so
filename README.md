@@ -24,7 +24,7 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
   - 2023-08-24:
     - [Ejercicio 1](prácticas/2023-08-24/ej01): `pipe parent <-> child`
     - [Ejercicio 2](prácticas/2023-08-24/ej02): `pipe child1 <-> child2`
-    - [Ejercicio 3](prácticas/2023-08-24/ej03): `pipe parent <-> childN`
+    - [Ejercicio 3](prácticas/p1/ej17): `pipe parent <-> childN` (práctica 1 / ejercicio 17)
 
 - Ejercicios del libro de Silberschatz: Operating System Concepts
   - Chapter 2:
