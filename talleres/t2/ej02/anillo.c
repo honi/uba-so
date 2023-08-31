@@ -12,29 +12,25 @@ int generate_random_number() {
 
 void worker(int id, int controller, int pipe_read, int pipe_write, int pipe_parent) {
 	int number = -1;
-	int secret = 0;
-
-	if (controller) {
-		read(pipe_read, &number, sizeof(number));
-		secret = number + generate_random_number();
-		printf("[worker %d] Starting... Secret number is: %d\n", id, secret);
-	}
+	int secret = -1;
 
 	while(1) {
-		if (controller || number >= 0) {
-			printf("[worker %d] Sending number: %d\n", id, number);
-			write(pipe_write, &number, sizeof(number));
-		}
-
 		read(pipe_read, &number, sizeof(number));
+
+		if (controller && secret == -1) {
+			secret = number + generate_random_number();
+			printf("[worker %d] Secret number is: %d\n", id, secret);
+		}
 
 		if (controller && number >= secret) {
 			printf("[worker %d] Secret number found!\n", id);
 			write(pipe_parent, &number, sizeof(number));
 			exit(EXIT_SUCCESS);
+		} else {
+			number++;
+			printf("[worker %d] Sending number: %d\n", id, number);
+			write(pipe_write, &number, sizeof(number));
 		}
-
-		number++;
 	}
 }
 
@@ -50,8 +46,8 @@ int main(int argc, char **argv) {
 	int start_number = atoi(argv[2]);
 	int controller = atoi(argv[3]);
 
-	if (controller <= 0 || controller > n) {
-		fprintf(stderr, "Controller must be between 1 and %d\n", n);
+	if (controller < 0 || controller >= n) {
+		fprintf(stderr, "Controller must be between 0 and %d\n", n - 1);
 		exit(EXIT_FAILURE);
 	}
 
@@ -78,10 +74,9 @@ int main(int argc, char **argv) {
 		}
 
 		if (children[i] == 0) {
-			int id = i + 1;
 			worker(
-				id,
-				id == controller,
+				i,
+				i == controller,
 				pipes[i][PIPE_READ],
 				pipes[(i + 1) % n][PIPE_WRITE],
 				pipes[MASTER_PIPE][PIPE_WRITE]
@@ -91,7 +86,7 @@ int main(int argc, char **argv) {
 
 	// Iniciamos el juego escribiendo el start_number en el pipe del proceso
 	// controlador. A partir de ahí empieza a circular el número por el anillo.
-	write(pipes[controller - 1][PIPE_WRITE], &start_number, sizeof(start_number));
+	write(pipes[controller][PIPE_WRITE], &start_number, sizeof(start_number));
 
 	// No cerramos ningún fd de los pipes porque siempre leemos y escribimos una
 	// cantidad específica de bytes (nunca esperamos EOF), y si nuestro programa
