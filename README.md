@@ -23,6 +23,7 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
     - [Ejercicio 17](prácticas/p1/ej17)
     - [Ejercicio 19](prácticas/p1/ej19)
     - [Ejercicio 20](prácticas/p1/ej20)
+    - [Ejercicio 21](prácticas/p1/ej21)
 
 - Clases prácticas
   - 2023-08-24:
