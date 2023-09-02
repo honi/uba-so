@@ -7,7 +7,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-static int run(pid_t *children, char ***progs, size_t count) {
+void run(char ***progs, size_t count) {
+	pid_t children[count];
 	int pipe_stdin[2];
 	int pipe_stdout[2];
 
@@ -19,7 +20,7 @@ static int run(pid_t *children, char ***progs, size_t count) {
 		if (i < count - 1) {
 			if (pipe(pipe_stdout) < 0) {
 				fprintf(stderr, "Error creating pipe #%d\n", i);
-				return EXIT_FAILURE;
+				exit(EXIT_FAILURE);
 			}
 		}
 
@@ -27,7 +28,7 @@ static int run(pid_t *children, char ***progs, size_t count) {
 
 		if (children[i] < 0) {
 			fprintf(stderr, "Error creating process #%d\n", i);
-			return EXIT_FAILURE;
+			exit(EXIT_FAILURE);
 		}
 
 		if (children[i] == 0) {
@@ -49,7 +50,7 @@ static int run(pid_t *children, char ***progs, size_t count) {
 
 			if (execvp(progs[i][0], progs[i]) < 0) {
 				fprintf(stderr, "Error calling execvp for program: %s\n", progs[i][0]);
-				return EXIT_FAILURE;
+				exit(EXIT_FAILURE);
 			}
 		} else {
 			// Rotamos los pipes. El que usamos para stdout en ésta iteración lo vamos
@@ -65,17 +66,25 @@ static int run(pid_t *children, char ***progs, size_t count) {
 		}
 	}
 
-	int status;
+	// Esperamos que terminen todos los procesos y recolectamos su status.
+	int status[count];
 	for (int i = 0; i < count; i++) {
-		waitpid(children[i], &status, 0);
-		status = WEXITSTATUS(status);
-		if (status != 0) {
-			fprintf(stderr, "Process %d failed\n", children[i]);
-			return status;
-		}
+		waitpid(children[i], &status[i], 0);
 	}
 
-	return EXIT_SUCCESS;
+	// Revisamos cómo terminaron los procesos e imprimimos mensajes de error de ser necesario.
+	for (int i = 0; i < count; i++) {
+		int exit_status = WEXITSTATUS(status[i]);
+		if (exit_status != 0) {
+			fprintf(stderr, "Command %s terminated abnormally with status: %d\n", progs[i][0], exit_status);
+		}
+		// La macro WIFSIGNALED nos dice si el proceso terminó debido a una señal que no fue manejada.
+		// https://www.gnu.org/software/libc/manual/html_node/Process-Completion-Status.html#index-WIFSIGNALED
+		if (WIFSIGNALED(status[i]) != 0) {
+			int exit_signal = WTERMSIG(status[i]);
+			fprintf(stderr, "Command %s terminated because of signal: %d - %s\n", progs[i][0], exit_signal, strsignal(exit_signal));
+		}
+	}
 }
 
 
@@ -88,23 +97,10 @@ int main(int argc, char **argv) {
 	int programs_count;
 	char*** programs_with_parameters = parse_input(argv, &programs_count);
 
-	int children_size = sizeof(void*) * programs_count;
-	pid_t* children = malloc(children_size);
-	memset(children, 0, children_size);
-
-	int status = run(children, programs_with_parameters, programs_count);
-	printf("Status: %d\n", status);
-
-	// Si hubo un error matamos a todos los procesos hijos para ser un buen programa.
-	if (status != 0) {
-		for (int i = 0; i < programs_count; i++) {
-			if (children[i] > 0) kill(children[i], SIGKILL);
-		}
-	}
+	run(programs_with_parameters, programs_count);
 
 	fflush(stdout);
 	fflush(stderr);
-	free(children);
 
-	exit(EXIT_SUCCESS);
+	return EXIT_SUCCESS;
 }
