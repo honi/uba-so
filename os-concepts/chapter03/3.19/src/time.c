@@ -69,12 +69,13 @@ int main(int argc, char *const argv[]) {
         exit(EXIT_FAILURE);
     }
 
+    signal(SIGCHLD, handle_sigchld);
+
     pid_t pid = fork();
 
     if (pid < 0) exit(EXIT_FAILURE);
 
     if (pid > 0) { // Parent
-        signal(SIGCHLD, handle_sigchld);
         while (1);
     } else { // Child
         run_command(++argv);
