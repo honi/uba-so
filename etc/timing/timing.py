@@ -2,7 +2,9 @@
 
 import argparse
 import sys
+import math
 from collections import defaultdict
+from decimal import Decimal
 
 NAME = 0
 BURST = 1
@@ -36,13 +38,13 @@ def simulate_execution(processes, scheduler, args, preemptive=False):
             preempted = running[:]
             res.append(preempted)
             running[BURST] -= running[RUNTIME]
-            running[RUNTIME] = 0
+            running[RUNTIME] = Decimal(0)
             running = ready[0]
 
         # Advance time.
-        time += 1
+        time += args.time_step
         if running:
-            running[RUNTIME] += 1
+            running[RUNTIME] += args.time_step
 
         # Run process.
         if running and running[RUNTIME] == running[BURST]:
@@ -97,7 +99,7 @@ def print_gantt(processes):
     min_block_size = max(len(p[NAME]) for p in processes if p[NAME] != IDLE)
 
     for p in processes:
-        block_size = max(min_block_size, p[RUNTIME]) + 2
+        block_size = math.ceil(max(min_block_size, p[RUNTIME])) + 2
         if p[NAME] != IDLE:
             block = f' {p[NAME].ljust(block_size - 2)} '
         else:
@@ -107,7 +109,7 @@ def print_gantt(processes):
         gantt[0].append(line)
         gantt[1].append(block)
         gantt[2].append(line)
-        gantt[3].append(f'{time}'.rjust(block_size + 1))
+        gantt[3].append(f'{float(time):g}'.rjust(block_size + 1))
 
     for row in gantt[:-1]:
         print('|', end='')
@@ -147,10 +149,10 @@ def print_metrics(processes):
 
     print('Waiting time')
     for p_name, p_wt in waiting_time:
-        print(f'  {p_name}\t= {p_wt}')
-    print(f'  MIN\t= {waiting_time[0][NAME]} ({waiting_time[0][1]})')
-    print(f'  MAX\t= {waiting_time[-1][NAME]} ({waiting_time[-1][1]})')
-    print(f'  AVG\t= {round(avg_waiting_time, 2)}')
+        print(f'  {p_name}\t= {float(p_wt):g}')
+    print(f'  MIN\t= {waiting_time[0][NAME]} ({float(waiting_time[0][1]):g})')
+    print(f'  MAX\t= {waiting_time[-1][NAME]} ({float(waiting_time[-1][1]):g})')
+    print(f'  AVG\t= {float(round(avg_waiting_time, 2)):g}')
     print(f'  IDLE\t= {idle}')
 
     turnaround_time = sorted([
@@ -161,10 +163,10 @@ def print_metrics(processes):
 
     print('\nTurnaround time')
     for p_name, p_tat in turnaround_time:
-        print(f'  {p_name}\t= {p_tat}')
-    print(f'  MIN\t= {turnaround_time[0][NAME]} ({turnaround_time[0][1]})')
-    print(f'  MAX\t= {turnaround_time[-1][NAME]} ({turnaround_time[-1][1]})')
-    print(f'  AVG\t= {round(avg_turnaround_time, 2)}')
+        print(f'  {p_name}\t= {float(p_tat):g}')
+    print(f'  MIN\t= {turnaround_time[0][NAME]} ({float(turnaround_time[0][1]):g})')
+    print(f'  MAX\t= {turnaround_time[-1][NAME]} ({float(turnaround_time[-1][1]):g})')
+    print(f'  AVG\t= {float(round(avg_turnaround_time, 2)):g}')
 
 def print_title(title):
     if sys.stdout.isatty():
@@ -200,10 +202,11 @@ class ProcessName(str):
 
 def main():
     parser = argparse.ArgumentParser(description='Scheduler Timing Tool')
-    parser.add_argument('processes', metavar='burst priority arrival', type=int, nargs='+', help='burst, priority and arrival for each process')
-    parser.add_argument('-q', '--quantum', action='store', type=int, default=1, help='quantum duration')
-    parser.add_argument('-d', '--delay', action='store', type=int, default=0, help='initial scheduler delay')
+    parser.add_argument('processes', metavar='burst priority arrival', type=Decimal, nargs='+', help='burst, priority and arrival for each process')
     parser.add_argument('-s', '--scheduler', metavar='ALGO', action='append', help='scheduler algorithm (FCFS, SJF, Priority, Round-Robin)')
+    parser.add_argument('-q', '--quantum', action='store', type=Decimal, default=1, help='quantum duration')
+    parser.add_argument('-t', '--time-step', action='store', type=Decimal, default=1, help='simulation time step')
+    parser.add_argument('-d', '--delay', action='store', type=Decimal, default=0, help='initial scheduler delay')
     args = parser.parse_args()
 
     if not args.processes or len(args.processes) % 3 != 0:
