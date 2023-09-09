@@ -43,3 +43,6 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
   - Chapter 3:
     - [3.18: Zombie process](os-concepts/chapter03/3.18)
     - [3.19: Time](os-concepts/chapter03/3.19)
+
+- Extra
+  - [Scheduler Timing Tool](etc/timing): Imprime el diagrama de Gantt, tiempo de espera y turnaround time para los algoritmos vistos en clase.
