@@ -63,7 +63,7 @@ def schedule_sjf(processes, args):
     return simulate_execution(processes, scheduler, args)
 
 def schedule_srtf(processes, args):
-    scheduler = lambda ps: sorted(ps, key=lambda p: p[BURST])
+    scheduler = lambda ps: sorted(ps, key=lambda p: p[BURST] - p[RUNTIME])
     return simulate_execution(processes, scheduler, args, preemptive=True)
 
 def schedule_priority(processes, args):
