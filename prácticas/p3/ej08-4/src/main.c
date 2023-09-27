@@ -19,6 +19,8 @@ void* worker_A() {
         printf("\nA");
         if (consumer == B) {
             sem_post(&b_full);
+            sem_post(&b_full);
+            sem_wait(&b_empty);
             sem_wait(&b_empty);
             consumer = C;
         } else {
@@ -42,7 +44,9 @@ void* worker_B() {
 void* worker_C() {
     while (1) {
         sem_wait(&c_full);
+        sem_wait(&c_full);
         printf("C");
+        sem_post(&c_empty);
         sem_post(&c_empty);
     }
 }
