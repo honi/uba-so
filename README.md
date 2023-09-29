@@ -82,6 +82,8 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
   - Taller 2: [enunciado](talleres/t2/t2.pdf)
     - [Ejercicio 1](talleres/t2/ej01)
     - [Ejercicio 2](talleres/t2/ej02)
+  - Taller 3: [enunciado](talleres/t3/t3.pdf)
+    - [Ejercicios](talleres/t3)
 
 - Ejercicios del libro de Silberschatz: Operating System Concepts
   - Chapter 2:
