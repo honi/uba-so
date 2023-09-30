@@ -1,73 +1,107 @@
-#include <thread>
+#include <atomic>
 #include <iostream>
-#include <vector>
 #include <numeric>
-#include <iterator>
+#include <thread>
+#include <vector>
 
-// Rows and columns
-#define RR 3
-#define CC 3
+#define ROWS 300
+#define COLS 300
+#define THREAD_COUNT 6
 
 using namespace std;
+using namespace std::chrono;
 
-atomic_int pos(0);
+typedef vector<vector<int>> matrix;
 
-void imprimoVector(vector<int> v, int vectorSize){
-    for (int i = 0; i < vectorSize; ++i) {
-        if(i==0) { cout << " [ " << v[i] << ", "; }
-        if(i==vectorSize-1){ cout << v[i] << " ]" << endl; }
-        if(i>0 && i<vectorSize-1){
-            cout << v[i] << ", ";
+atomic<int> next_index(0);
+
+void multiply_by_element(matrix &m1, matrix &m2, matrix &m3, vector<int> &counts, int tid) {
+    int i;
+    while ((i = next_index++) < ROWS * COLS) {
+        counts[tid]++;
+        int r = i / COLS;
+        int c = i % COLS;
+        for (int k = 0; k < ROWS; k++) {
+            m3[r][c] += m1[r][k] * m2[k][c];
         }
     }
 }
-void imprimoMatriz(vector<vector<int>> m, int matrixSize){
-    for (int i = 0; i < matrixSize; ++i) {
-        cout << "Fila " << i << ": ";
-        for (int j = 0; j < matrixSize; ++j) {
-            if(j==0) { cout << " [ " << m[i][j] << ", "; }
-            if(j==matrixSize-1){ cout << m[i][j] << " ]" << endl; }
-            if(j>0 && j<matrixSize-1){
-                cout << m[i][j] << ", ";
+
+void multiply_by_row(matrix &m1, matrix &m2, matrix &m3, vector<int> &counts, int tid) {
+    int r;
+    while ((r = next_index++) < ROWS) {
+        for (int c = 0; c < COLS; c++) {
+            counts[tid]++;
+            for (int k = 0; k < ROWS; k++) {
+                m3[r][c] += m1[r][k] * m2[k][c];
             }
         }
     }
 }
-vector<int> tomarColumna(vector<vector<int>> matrix, int columna){
-    vector<int> resultado;
 
-    for(int i=0; i<RR; i++){
-        for(int j=0; j<CC; j++){
-            if(j==columna){ resultado.push_back(matrix[i][j]); }
+void multiply_by_column(matrix &m1, matrix &m2, matrix &m3, vector<int> &counts, int tid) {
+    int c;
+    while ((c = next_index++) < ROWS) {
+        for (int r = 0; r < ROWS; r++) {
+            counts[tid]++;
+            for (int k = 0; k < ROWS; k++) {
+                m3[r][c] += m1[r][k] * m2[k][c];
+            }
         }
     }
-    return resultado;
 }
 
-
+void print_matrix(matrix &m){
+    for (int i = 0; i < ROWS; i++) {
+        cout << "[ ";
+        for (int j = 0; j < COLS; j++) {
+            cout << m[i][j];
+            if (j < COLS-1) cout << ", ";
+        }
+        cout << " ]" << endl;
+    }
+}
 
 int main() {
-    vector<vector<int>> matrix1(RR, vector<int>(CC));
-    vector<vector<int>> matrix2(RR, vector<int>(CC));
-    vector<vector<int>> matrixRes(RR, vector<int>(CC));
+    matrix m1(ROWS, vector<int>(COLS));
+    matrix m2(ROWS, vector<int>(COLS));
+    matrix m3(ROWS, vector<int>(COLS));
 
-    // Inicializo valores de matrices
-    int matrixSize = CC;
-    for (int i = 0; i < matrixSize; ++i) {
-        for (int j = 0; j < matrixSize; ++j) {
-            matrix1[i][j] = i * matrixSize + j + 1;
-            matrix2[i][j] = (matrixSize * matrixSize) - (i * matrixSize + j);
+    for (int i = 0; i < ROWS; ++i) {
+        for (int j = 0; j < COLS; ++j) {
+            m1[i][j] = i * COLS + j + 1;
+            m2[i][j] = (ROWS * COLS) - (i * COLS + j);
         }
     }
 
+    vector<thread> threads;
+    threads.reserve(THREAD_COUNT);
+    vector<int> counts(THREAD_COUNT, 0);
 
-    /** TO-DO **/
+    auto start_time = high_resolution_clock::now();
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        threads.emplace_back(multiply_by_row, ref(m1), ref(m2), ref(m3), ref(counts), i);
+    }
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        threads[i].join();
+    }
+    auto end_time = high_resolution_clock::now();
 
-    /** IMPRIMO MATRICES **/
-    imprimoMatriz(matrix1, matrixSize);
-    imprimoMatriz(matrix2, matrixSize);
-    imprimoMatriz(matrixRes, matrixSize);
+    if (ROWS * COLS < 100) {
+        cout << "Matrix 1" << endl;
+        print_matrix(m1);
+        cout << "Matrix 2" << endl;
+        print_matrix(m2);
+        cout << "Matrix 3" << endl;
+        print_matrix(m3);
+    }
+
+    cout << "Multiplications by thread" << endl;
+    for (int i = 0; i < THREAD_COUNT; i++) {
+        cout << "Thread #" << i << ": " << counts[i] << endl;
+    }
+
+    cout << "Execution time: " << duration_cast<milliseconds>(end_time - start_time).count() << " ms" << endl;
 
     return 0;
 }
-
