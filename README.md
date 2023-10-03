@@ -93,6 +93,12 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
   - Taller 3: [enunciado](talleres/t3/t3.pdf)
     - [Ejercicios](talleres/t3)
 
+- Parciales
+  - 2023-04-25: [enunciado](parciales/2023-04-25/2023-04-25.pdf)
+    - [Ejercicio 1](parciales/2023-04-25/ej1.md)
+    - [Ejercicio 3](parciales/2023-04-25/ej3.md)
+    - Ejercicios 2 y 4 están en las guías prácticas
+
 - Ejercicios del libro de Silberschatz: Operating System Concepts
   - Chapter 2:
     - [Introduction to Linux Kernel Modules](os-concepts/chapter02/kernel_modules)
