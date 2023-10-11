@@ -91,13 +91,21 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
     - [Ejercicio 3](prácticas/p1/ej17): `pipe parent <-> childN` (práctica 1 / ejercicio 17)
 
 - Talleres
-  - Taller 1: [enunciado](talleres/t1/t1.pdf)
+  - Taller 1: syscalls y señales
+    - [Enunciado](talleres/t1/t1.pdf)
     - [Ejercicio 1](talleres/t1/ej01)
-  - Taller 2: [enunciado](talleres/t2/t2.pdf)
+  - Taller 2: IPC
+    - [Enunciado](talleres/t2/t2.pdf)
     - [Ejercicio 1](talleres/t2/ej01)
     - [Ejercicio 2](talleres/t2/ej02)
-  - Taller 3: [enunciado](talleres/t3/t3.pdf)
+  - Taller 3: threading
+    - [Enunciado](talleres/t3/t3.pdf)
     - [Ejercicios](talleres/t3)
+  - Taller 4: drivers
+    - [Enunciado](talleres/t4/t4.pdf)
+    - [Ejercicio 1](talleres/t4/ej01)
+    - [Ejercicio 2](talleres/t4/ej02)
+    - [Ejercicio 3](talleres/t4/ej03)
 
 - Parciales
   - 2023-04-25: [enunciado](parciales/2023-04-25/2023-04-25.pdf)
