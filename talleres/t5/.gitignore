@@ -1,0 +1,4 @@
+*.o
+testhdd
+hdd.raw
+hdd

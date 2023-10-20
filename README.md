@@ -109,6 +109,9 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
     - [Ejercicio 1](talleres/t4/ej01)
     - [Ejercicio 2](talleres/t4/ej02)
     - [Ejercicio 3](talleres/t4/ej03)
+  - Taller 5: ext2
+    - [Enunciado](talleres/t5/t5.pdf)
+    - [Implementación](talleres/t5)
 
 - Parciales
   - 2023-04-25: [enunciado](parciales/2023-04-25/2023-04-25.pdf)
