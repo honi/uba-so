@@ -111,10 +111,13 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
     - [Ejercicio 3](prácticas/p1/ej17): `pipe parent <-> childN` (práctica 1 / ejercicio 17)
 
 - Parciales
-  - 2023-04-25: [enunciado](parciales/2023-04-25/2023-04-25.pdf)
-    - [Ejercicio 1](parciales/2023-04-25/ej1.md)
-    - [Ejercicio 3](parciales/2023-04-25/ej3.md)
-    - Ejercicios 2 y 4 están en las guías prácticas
+  - 1er Parcial
+    - 2023-04-25: [enunciado](parciales/2023-04-25/2023-04-25.pdf)
+      - [Ejercicio 1](parciales/2023-04-25/ej1.md): IPC
+      - [Ejercicio 3](parciales/2023-04-25/ej3.md): sincronización
+  - 2do Parcial
+    - 2023-07-13: [enunciado](parciales/2023-07-13/2023-07-13.pdf)
+      - [Ejercicio 1](parciales/2023-07-13/my_copy.c): filesystem
 
 - Ejercicios del libro de Silberschatz: Operating System Concepts
   - Chapter 2:
