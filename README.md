@@ -88,7 +88,7 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
     - [Ejercicio 9](prácticas/p5/ej09.md)
     - [Ejercicio 10](prácticas/p5/ej10.md)
     - [Ejercicio 11](prácticas/p5/ej11)
-    - [Ejercicio 12](prácticas/p5/ej12.md) (pendiente)
+    - [Ejercicio 12](prácticas/p5/ej12.md)
     - [Ejercicio 13](prácticas/p5/ej13.md) (pendiente)
   - Práctica 6: [enunciado](prácticas/p6/p6.pdf)
     - [Ejercicio 1](prácticas/p6/ej01.md)
