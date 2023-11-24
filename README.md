@@ -104,12 +104,6 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
     - [Ejercicio 4](prácticas/p7/ej04.md)
     - [Ejercicio 6](prácticas/p7/ej06.md)
 
-- Clases prácticas
-  - 2023-08-24:
-    - [Ejercicio 1](prácticas/2023-08-24/ej01): `pipe parent <-> child`
-    - [Ejercicio 2](prácticas/2023-08-24/ej02): `pipe child1 <-> child2`
-    - [Ejercicio 3](prácticas/p1/ej17): `pipe parent <-> childN` (práctica 1 / ejercicio 17)
-
 - Talleres
   - Taller 1: syscalls y señales
     - [Enunciado](talleres/t1/t1.pdf)
@@ -129,12 +123,18 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
   - Taller 5: ext2
     - [Enunciado](talleres/t5/t5.pdf)
     - [Implementación](talleres/t5)
+  - Taller 6: seguridad
+    - [Enunciado](talleres/t6/t6.pdf)
+    - [Solución](talleres/t6/t6.md)
 
 - Parciales
-  - 2023-04-25: [enunciado](parciales/2023-04-25/2023-04-25.pdf)
-    - [Ejercicio 1](parciales/2023-04-25/ej1.md)
-    - [Ejercicio 3](parciales/2023-04-25/ej3.md)
-    - Ejercicios 2 y 4 están en las guías prácticas
+  - 1er Parcial
+    - 2023-04-25: [enunciado](parciales/2023-04-25/2023-04-25.pdf)
+      - [Ejercicio 1](parciales/2023-04-25/ej1.md): IPC
+      - [Ejercicio 3](parciales/2023-04-25/ej3.md): sincronización
+  - 2do Parcial
+    - 2023-07-13: [enunciado](parciales/2023-07-13/2023-07-13.pdf)
+      - [Ejercicio 1](parciales/2023-07-13/my_copy.c): filesystem
 
 - Ejercicios del libro de Silberschatz: Operating System Concepts
   - Chapter 2:
