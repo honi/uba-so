@@ -3,7 +3,7 @@ void my_copy_ext2(char* src, char* dst) {
     Ext2FSInode dst_inode = inode_for_path(dst);
 
     unsigned char* buffer = (unsigned char*) malloc(BLOCK_SIZE);
-    uint num_blocks = ceil(dst_inode.size / BLOCK_SIZE);
+    uint num_blocks = ceil(src_inode.size / BLOCK_SIZE);
 
     for (uint block_num = 0; block_num < num_blocks; block_num++) {
         uint src_block_addr = get_block_address(src_inode, block_num);
