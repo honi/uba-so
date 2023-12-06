@@ -1,5 +1,9 @@
 ## Ejercicio 1
 
+**Está mal, no cumple con los requerimientos.**
+
+La solución a este ejercicio está en "The Little Book of Semaphores", el problema llamado "Sushi Bar".
+
 ```c
 #define N 10
 semaphore molinete = sem(1);

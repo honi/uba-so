@@ -1,5 +1,7 @@
 ## Ejercicio 2
 
+**Me dieron la mitad de los puntos porque aparentemente las tareas "real-time" si o si quieren que las pongamos con prioridad alta... Pero me da la sensación que no leyeron mi justificación, para mi "real-time" era solo un nombre, porque la descripción de las tareas y más aún tratándose de un jueguito no corresponde a tareas real-time mission-critical.**
+
 Podemos utilizar una cola multi nivel donde los procesos tienen prioridades estáticas, no se mueven entre colas.
 
 - Nivel 0 (prioridad alta): FCFS para procesos interactivos.

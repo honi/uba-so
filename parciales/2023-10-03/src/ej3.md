@@ -1,5 +1,7 @@
 ## Ejercicio 3
 
+**Hay 2 errores de cálculo, pero la forma de resolverlo es correcta.**
+
 ### LRU
 
 Least recently used mantiene una cola de desalojo ordenada por el último tiempo de acceso a la página. Cuando necesitamos desalojar una página, elegimos la que se usó hace más tiempo, con la suposición de que si no se accede hace mucho tiempo entonces no es una página muy usada por los procesos ready.
