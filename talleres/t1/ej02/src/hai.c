@@ -9,35 +9,33 @@
 
 int aprietes = 5;
 
-void sigurg_handler(int sig){
+void sigurg_handler(int sig) {
 	aprietes--;
 	printf("ya va!\n");
 }
 
-void sigint_handler(int sig){
+void sigint_handler(int sig) {
 	wait(NULL);
 	exit(0);
 }
 
-void funcionalidad_hijo(int argc, char* argv[]){
-	signal(SIGURG,sigurg_handler);
+void funcionalidad_hijo(int argc, char* argv[]) {
+	signal(SIGURG, sigurg_handler);
 	while(aprietes > 0);
-	kill(getppid(),SIGINT);
-	for(int i = 1; i < argc-1;i++){
-		argv[i] = argv[i-1];
-	}
-	argv[argc-1] = 0;
-	execv(argv[0],argv);
+	kill(getppid(), SIGINT);
+	argv++;
+	execvp(argv[0], argv);
+	exit(0);
 }
 
 
 int main(int argc, char* argv[]) {
-	signal(SIGINT,sigint_handler);
+	signal(SIGINT, sigint_handler);
   	pid_t hijo = fork();
-	if(hijo == 0){
+	if (hijo == 0) {
 		funcionalidad_hijo(argc,argv);
 	}
-	while(1){
+	while(1) {
 		sleep(1);
 		printf("sup!\n");
 		kill(hijo,SIGURG);
