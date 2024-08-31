@@ -20,6 +20,9 @@ Todos los programas deberían compilar con Linux Kernel 5.4.
   - Práctica 7: [enunciado](prácticas/p7/p7.pdf), [soluciones](prácticas/p7/)
   - Práctica 8: [enunciado](prácticas/p8/p8.pdf), [soluciones](prácticas/p8/)
 
+- Talleres
+  - Borrados del repo porque hay varios talleres entregables en 2024-2C.
+
 - Clases prácticas
   - 2023-08-24:
     - [Ejercicio 1](prácticas/2023-08-24/ej01): `pipe parent <-> child`
